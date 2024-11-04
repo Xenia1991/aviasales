@@ -1,0 +1,12 @@
+.app {
+    margin: 0 auto;
+    background-color: aqua;
+    width: 500px;
+    height: auto;
+    &__header {
+        color: green;
+    }
+    &__text {
+        color: red;
+    }
+}
