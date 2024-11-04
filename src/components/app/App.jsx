@@ -1,14 +1,29 @@
 import React from 'react';
 
+import Logo from '../logo/logo';
+import Sort from '../sort/sort';
+import Filter from '../filter/filter';
+import TicketList from '../ticket-list/ticket-list';
+import ShowMoreButton from '../show-more-button/show-more-button';
+
 import classes from './App.module.scss';
 
-console.log(classes);
-
-const App = () => (
-  <div className={classes.app}>
-    <h1 className={classes.app__header}>Hello, aviasales. Let start!!</h1>
-    <div className={classes.app__text}>Here is going to be your application</div>
-  </div>
-);
+const App = () => {
+  return (
+    <div className={classes.app}>
+      <Logo />
+      <div className={classes.app__main}>
+        <div className={classes.app__sort}>
+          <Sort />
+        </div>
+        <div className={classes.app__list}>
+          <Filter />
+          <TicketList />
+          <ShowMoreButton />
+        </div>
+      </div>
+    </div>
+  );
+};
 
 export default App;

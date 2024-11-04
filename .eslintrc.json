@@ -45,6 +45,7 @@
       "jsx-a11y/label-has-associated-control": ["off"],
       "jsx-a11y/no-noninteractive-element-interactions": ["off"],
       "react/function-component-definition": "off",
+      "arrow-body-style": "off",
       "import/order": [
         2,
         {
