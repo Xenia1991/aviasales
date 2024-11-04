@@ -1,0 +1,12 @@
+.app__filter {
+    font-family: 'Open Sans';
+    font-size: 12px;
+    margin-bottom: 20px;
+
+    :global(.ant-radio-button-wrapper) {
+        width: 100%;
+        font-family: 'Open Sans';
+        font-size: 12px;
+    }
+}
+

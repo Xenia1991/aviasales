@@ -9,6 +9,7 @@ import ShowMoreButton from '../show-more-button/show-more-button';
 import classes from './App.module.scss';
 
 const App = () => {
+  console.log(classes);
   return (
     <div className={classes.app}>
       <Logo />
