@@ -1,0 +1,37 @@
+.ticket {
+    width: 502px;
+    height: 184px;
+    background-color: #FFFFFF;
+    border-radius: 5px;
+    box-sizing: border-box;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px 0 rgb(224, 220, 220);
+    &__first-part {
+        margin: 0 0 20px 0;
+        box-sizing: border-box;
+        height: 36px;
+        display: flex;
+        justify-content: space-between;
+    }
+    &__second-part {
+        background-color: greenyellow;
+        margin: 0 0 10px 0;
+        box-sizing: border-box;
+        height: 39px;
+        display: flex;
+        justify-content: space-between;
+    }
+    &__third-part {
+        background-color: greenyellow;
+        margin: 0;
+        box-sizing: border-box;
+        height: 39px;
+        display: flex;
+        justify-content: space-between;
+    }
+    &__ticket-price {
+        font-size: 24px;
+        color: #2196F3;
+    }
+}

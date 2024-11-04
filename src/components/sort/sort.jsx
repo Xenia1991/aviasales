@@ -7,7 +7,6 @@ const Sort = () => {
   const onChange = (e) => {
     console.log(`checked = ${e.target.checked}`);
   };
-  console.log(classes);
   return (
     <div className={classes['app__sorting-elements']}>
       <h5 className={classes['app__sorting-header']}>количество пересадок</h5>
