@@ -45,6 +45,8 @@
       "jsx-a11y/label-has-associated-control": ["off"],
       "jsx-a11y/no-noninteractive-element-interactions": ["off"],
       "react/function-component-definition": "off",
+      "import/no-extraneous-dependencies": "off",
+      "react/jsx-one-expression-per-line": "off",
       "arrow-body-style": "off",
       "import/order": [
         2,

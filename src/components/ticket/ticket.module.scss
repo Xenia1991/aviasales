@@ -6,7 +6,10 @@
     box-sizing: border-box;
     padding: 20px;
     margin-bottom: 20px;
-    box-shadow: 0 2px 8px 0 rgb(224, 220, 220);
+    &:hover {
+        cursor: pointer;
+        box-shadow: 0 2px 8px 0 rgb(224, 220, 220);
+    }
     &__first-part {
         margin: 0 0 20px 0;
         box-sizing: border-box;
@@ -15,20 +18,32 @@
         justify-content: space-between;
     }
     &__second-part {
-        background-color: greenyellow;
         margin: 0 0 10px 0;
         box-sizing: border-box;
         height: 39px;
         display: flex;
         justify-content: space-between;
-    }
-    &__third-part {
-        background-color: greenyellow;
-        margin: 0;
-        box-sizing: border-box;
-        height: 39px;
-        display: flex;
-        justify-content: space-between;
+        &--inner {
+            width: 33.3%;
+            margin: 0;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 0;
+        }
+        &--info-top {
+            margin: 0;
+            font-family: 'Open Sans';
+            font-size: 12px;
+            color: #A0B0B9;
+        }
+        &--info-bottom {
+            margin: 0;
+            font-family: 'Open Sans';
+            font-size: 14px;
+            color: #4A4A4A;
+        }
     }
     &__ticket-price {
         font-size: 24px;
