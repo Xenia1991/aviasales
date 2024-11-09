@@ -35,7 +35,7 @@ const Sort = () => {
       <div className={classes['app__sorting-checkbox']}>
         <Checkbox
           onChange={handleFilterAll}
-          checked={filterAll || (filterOne && filterWithout && filterTwo && filterThree)}
+          checked={filterAll || (filterWithout && filterOne && filterTwo && filterThree)}
         >
           Все
         </Checkbox>

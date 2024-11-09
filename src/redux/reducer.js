@@ -30,7 +30,6 @@ const reducer = (state = initialState, action) => {
       };
     case 'WITHOUT_CHECKED':
       if (state.filterWithout) {
-        console.log('here');
         return {
           ...state,
           filterAll: false,
@@ -42,12 +41,11 @@ const reducer = (state = initialState, action) => {
         filterWithout: !state.filterWithout,
       };
     case 'ONE_CHECKED':
-      if (state.filterOne) {
-        console.log('here');
+      if (!state.filterOne) {
         return {
           ...state,
           filterAll: false,
-          filterOne: false,
+          filterOne: true,
         };
       }
       return {
@@ -56,12 +54,26 @@ const reducer = (state = initialState, action) => {
         filterAll: !state.filterOne,
       };
     case 'TWO_CHECKED':
+      if (!state.filterTwo) {
+        return {
+          ...state,
+          filterAll: false,
+          filterTwo: true,
+        };
+      }
       return {
         ...state,
         filterTwo: !state.filterTwo,
         filterAll: !state.filterTwo,
       };
     case 'THREE_CHECKED':
+      if (!state.filterThree) {
+        return {
+          ...state,
+          filterAll: false,
+          filterThree: true,
+        };
+      }
       return {
         ...state,
         filterThree: !state.filterThree,
