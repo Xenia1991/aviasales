@@ -1,13 +1,6 @@
-const initialState = {
-  tickets: [],
-  filterAll: false,
-  filterWithout: false,
-  filterOne: false,
-  filterTwo: false,
-  filterThree: false,
-};
+import initialState from './initial-state';
 
-const reducer = (state = initialState, action) => {
+const sortReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'ALL_CHECKED':
       if (!state.filterAll) {
@@ -84,4 +77,4 @@ const reducer = (state = initialState, action) => {
   }
 };
 
-export default reducer;
+export default sortReducer;
