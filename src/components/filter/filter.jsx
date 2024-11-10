@@ -14,11 +14,9 @@ const Filter = () => {
   const onChange = ({ target: { value } }) => {
     if (value === 'САМЫЙ ДЕШЁВЫЙ') {
       dispatch(chooseCheapest());
-      console.log('work');
     }
     if (value === 'САМЫЙ БЫСТРЫЙ') {
       dispatch(chooseFastest());
-      console.log('work2');
     }
   };
   const radioOptions = [
@@ -36,7 +34,6 @@ const Filter = () => {
       disabled: true,
     },
   ];
-  console.log(filterCheapest, filterFastest);
   return (
     <div className={classes.app__filter}>
       <Radio.Group

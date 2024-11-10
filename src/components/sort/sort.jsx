@@ -7,11 +7,11 @@ import { checkAll, checkWithout, checkOne, checkTwo, checkThree } from '../../re
 import classes from './sort.module.scss';
 
 const Sort = () => {
-  const sortAll = useSelector((state) => state.sort.filterAll);
-  const sortWithout = useSelector((state) => state.sort.filterWithout);
-  const sortOne = useSelector((state) => state.sort.filterOne);
-  const sortTwo = useSelector((state) => state.sort.filterTwo);
-  const sortThree = useSelector((state) => state.sort.filterThree);
+  const sortAll = useSelector((state) => state.sort.sortAll);
+  const sortWithout = useSelector((state) => state.sort.sortWithout);
+  const sortOne = useSelector((state) => state.sort.sortOne);
+  const sortTwo = useSelector((state) => state.sort.sortTwo);
+  const sortThree = useSelector((state) => state.sort.sortThree);
   const dispatch = useDispatch();
   const handleFilterAll = () => {
     dispatch(checkAll());

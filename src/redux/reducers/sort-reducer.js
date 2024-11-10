@@ -3,74 +3,74 @@ import initialState from './initial-state';
 const sortReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'ALL_CHECKED':
-      if (!state.filterAll) {
+      if (!state.sortAll) {
         return {
           ...state,
-          filterAll: !state.filterAll,
-          filterWithout: !state.filterAll,
-          filterOne: !state.filterAll,
-          filterTwo: !state.filterAll,
-          filterThree: !state.filterAll,
+          sortAll: !state.sortAll,
+          sortWithout: !state.sortAll,
+          sortOne: !state.sortAll,
+          sortTwo: !state.sortAll,
+          sortThree: !state.sortAll,
         };
       }
       return {
         ...state,
-        filterAll: false,
-        filterWithout: false,
-        filterOne: false,
-        filterTwo: false,
-        filterThree: false,
+        sortAll: false,
+        sortWithout: false,
+        sortOne: false,
+        sortTwo: false,
+        sortThree: false,
       };
     case 'WITHOUT_CHECKED':
-      if (state.filterWithout) {
+      if (state.sortWithout) {
         return {
           ...state,
-          filterAll: false,
-          filterWithout: false,
+          sortAll: false,
+          sortWithout: false,
         };
       }
       return {
         ...state,
-        filterWithout: !state.filterWithout,
+        sortWithout: !state.sortWithout,
       };
     case 'ONE_CHECKED':
-      if (!state.filterOne) {
+      if (!state.sortOne) {
         return {
           ...state,
-          filterAll: false,
-          filterOne: true,
+          sortAll: false,
+          sortOne: true,
         };
       }
       return {
         ...state,
-        filterOne: !state.filterOne,
-        filterAll: !state.filterOne,
+        sortOne: !state.sortOne,
+        sortAll: !state.sortOne,
       };
     case 'TWO_CHECKED':
-      if (!state.filterTwo) {
+      if (!state.sortTwo) {
         return {
           ...state,
-          filterAll: false,
-          filterTwo: true,
+          sortAll: false,
+          sortTwo: true,
         };
       }
       return {
         ...state,
-        filterTwo: !state.filterTwo,
-        filterAll: !state.filterTwo,
+        sortTwo: !state.sortTwo,
+        sortAll: !state.sortTwo,
       };
     case 'THREE_CHECKED':
-      if (!state.filterThree) {
+      if (!state.sortThree) {
         return {
           ...state,
-          filterAll: false,
-          filterThree: true,
+          sortAll: false,
+          sortThree: true,
         };
       }
       return {
         ...state,
-        filterThree: !state.filterThree,
-        filterAll: !state.filterThree,
+        sortThree: !state.sortThree,
+        sortAll: !state.sortThree,
       };
     default:
       return state;
