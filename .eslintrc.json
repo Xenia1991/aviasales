@@ -49,6 +49,8 @@
       "import/no-extraneous-dependencies": "off",
       "react/jsx-one-expression-per-line": "off",
       "arrow-body-style": "off",
+      "no-param-reassign": "off",
+      "import/prefer-default-export": "off",
       "import/order": [
         2,
         {
