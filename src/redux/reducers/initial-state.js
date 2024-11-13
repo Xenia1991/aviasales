@@ -1,5 +1,6 @@
 const initialState = {
   tickets: [],
+  searchId: null,
   sortAll: false,
   sortWithout: false,
   sortOne: false,

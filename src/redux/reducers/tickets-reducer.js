@@ -2,29 +2,39 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 import initialState from './initial-state';
 
-// const startRequest = () => {
-//   return {
-//     type: 'START_REQUEST_TICKETS',
-//   };
-// };
-
-// const succesResponse = () => {
-//   return {
-//     type: 'GET_SUCCESS_RESPONSE',
-//   };
-// };
-
-// const getError = () => {
-//   return {
-//     type: 'GET_ERROR',
-//   };
-// };
-
-export const fetchTickets = createAsyncThunk('tickets/fetchTickets', async (_, { rejectedWithValue }) => {
+export const fetchSearchId = createAsyncThunk('searchId/fetchSearchId', async (_, { rejectedWithValue }) => {
   try {
     const responseId = await fetch('https://aviasales-test-api.kata.academy/search');
     const id = await responseId.json();
-    const responseTickets = await fetch(`https://aviasales-test-api.kata.academy/tickets?searchId=${id.searchId}`);
+    return id;
+  } catch (error) {
+    return rejectedWithValue(error.message);
+  }
+});
+
+const searchIdSlice = createSlice({
+  name: 'searchId',
+  initialState,
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchSearchId.pending, (state, action) => {
+        state.searchId = null;
+        state.error = action.payload;
+      })
+      .addCase(fetchSearchId.fulfilled, (state, action) => {
+        state.searchId = action.payload.searchId;
+      })
+      .addCase(fetchSearchId.rejected, (state, action) => {
+        state.searchId = null;
+        state.error = action.payload;
+      });
+  },
+});
+
+export const fetchTickets = createAsyncThunk('tickets/fetchTickets', async (id, { rejectedWithValue }) => {
+  try {
+    const responseTickets = await fetch(`https://aviasales-test-api.kata.academy/tickets?searchId=${id}`);
     if (!responseTickets.ok) {
       return rejectedWithValue('Failed to fetch tickets');
     }
@@ -56,4 +66,5 @@ const ticketSlice = createSlice({
   },
 });
 
+export const searchIdReducer = searchIdSlice.reducer;
 export const ticketReducer = ticketSlice.reducer;

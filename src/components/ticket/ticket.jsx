@@ -2,29 +2,8 @@ import React from 'react';
 import { nanoid } from 'nanoid';
 
 import classes from './ticket.module.scss';
-import avialogo from './S7 Logo.png';
 
-const Ticket = () => {
-  const ticketContent = {
-    price: 13400,
-    carrier: 's7',
-    segments: [
-      {
-        origin: 'MOW',
-        destination: 'HKT',
-        date: '10:45 - 08:00',
-        stops: ['HKG', 'JNB'],
-        duration: 1275,
-      },
-      {
-        origin: 'MOW',
-        destination: 'HKT',
-        date: '11:20 - 00:50',
-        stops: ['HKG'],
-        duration: 810,
-      },
-    ],
-  };
+const Ticket = ({ ticket }) => {
   const setTime = (mins) => {
     let duration;
     if (mins < 60) {
@@ -50,10 +29,53 @@ const Ticket = () => {
     }
     return stop;
   };
-  const { segments } = ticketContent;
+  const formatTime = (date, duration) => {
+    const startTimeHour = String(new Date(date).getHours());
+    const startTimeMins = String(new Date(date).getMinutes());
+    const startTimeInMs = new Date(date).getTime();
+    const durationInMs = duration * 60 * 1000;
+    const endTimeInMs = startTimeInMs + durationInMs;
+    const endTimeInHour = String(new Date(endTimeInMs).getHours());
+    const endTImeInMins = String(new Date(endTimeInMs).getMinutes());
+    let begin = '';
+    let end = '';
+    if (startTimeHour.length === 1 && startTimeInMs.length === 1) {
+      begin = `0${startTimeHour}:0${startTimeMins}`;
+    } else if (startTimeHour.length === 1) {
+      begin = `0${startTimeHour}:${startTimeMins}`;
+    } else if (startTimeInMs.length === 1) {
+      begin = `${startTimeHour}:0${startTimeMins}`;
+    } else {
+      begin = `${startTimeHour}:${startTimeMins}`;
+    }
+    if (endTimeInHour.length === 1 && endTImeInMins.length === 1) {
+      end = `0${endTimeInHour}:0${endTImeInMins}`;
+    } else if (endTimeInHour.length === 1) {
+      end = `0${endTimeInHour}:${endTImeInMins}`;
+    } else if (endTImeInMins.length === 1) {
+      end = `${endTimeInHour}:0${endTImeInMins}`;
+    } else {
+      end = `${endTimeInHour}:${endTImeInMins}`;
+    }
+    return `${begin} - ${end}`;
+  };
+  const formatPrice = (price) => {
+    let formattedPrice = '';
+    const strinfifyPrice = String(price);
+    if (strinfifyPrice.length === 4) {
+      formattedPrice = `${strinfifyPrice.slice(0, 1)} ${strinfifyPrice.slice(1)}`;
+    } else if (strinfifyPrice.length === 5) {
+      formattedPrice = `${strinfifyPrice.slice(0, 2)} ${strinfifyPrice.slice(2)}`;
+    } else if (strinfifyPrice.length === 6) {
+      formattedPrice = `${strinfifyPrice.slice(0, 3)} ${strinfifyPrice.slice(3)}`;
+    }
+    return formattedPrice;
+  };
+  const { segments } = ticket;
   const ticketInfo = segments.map((info) => {
     const duration = setTime(info.duration);
     const stopsHeader = setStops(info.stops.length);
+    const timeDuration = formatTime(info.date, info.duration);
     const stops = info.stops.join(', ');
     return (
       <div className={classes['ticket__second-part']} key={nanoid()}>
@@ -61,7 +83,7 @@ const Ticket = () => {
           <p className={classes['ticket__second-part--info-top']}>
             {info.origin}-{info.destination}
           </p>
-          <p className={classes['ticket__second-part--info-bottom']}>{info.date}</p>
+          <p className={classes['ticket__second-part--info-bottom']}>{timeDuration}</p>
         </div>
         <div className={classes['ticket__second-part--inner']}>
           <p className={classes['ticket__second-part--info-top']}>В ПУТИ</p>
@@ -74,11 +96,12 @@ const Ticket = () => {
       </div>
     );
   });
+  const finalPrice = formatPrice(ticket.price);
   return (
     <div className={classes.ticket}>
       <div className={classes['ticket__first-part']}>
-        <span className={classes['ticket__ticket-price']}>{`${ticketContent.price} P`}</span>
-        <img src={avialogo} alt="aviacompany logo" />
+        <span className={classes['ticket__ticket-price']}>{`${finalPrice} P`}</span>
+        <img src={`//pics.avs.io/99/36/${ticket.carrier}.png`} alt="aviacompany logo" />
       </div>
       <div>{ticketInfo}</div>
     </div>
