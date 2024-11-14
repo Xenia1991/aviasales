@@ -1,7 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
-import initialState from './initial-state';
-
 export const fetchSearchId = createAsyncThunk('searchId/fetchSearchId', async (_, { rejectedWithValue }) => {
   try {
     const responseId = await fetch('https://aviasales-test-api.kata.academy/search');
@@ -14,7 +12,7 @@ export const fetchSearchId = createAsyncThunk('searchId/fetchSearchId', async (_
 
 const searchIdSlice = createSlice({
   name: 'searchId',
-  initialState,
+  initialState: { searchId: null },
   reducers: {},
   extraReducers: (builder) => {
     builder
@@ -32,36 +30,47 @@ const searchIdSlice = createSlice({
   },
 });
 
-export const fetchTickets = createAsyncThunk('tickets/fetchTickets', async (id, { rejectedWithValue }) => {
+const fetchTickets = async (id, rejectedWithValue) => {
   try {
     const responseTickets = await fetch(`https://aviasales-test-api.kata.academy/tickets?searchId=${id}`);
     if (!responseTickets.ok) {
-      return rejectedWithValue('Failed to fetch tickets');
+      throw new Error('нет запроса');
     }
     const data = await responseTickets.json();
     return data;
   } catch (error) {
-    return rejectedWithValue(error.message);
+    if (error.message === 'нет запроса' || error.status === 500) {
+      return fetchTickets(id);
+    }
+    return rejectedWithValue(error);
   }
+};
+
+export const fetchTicketsThunk = createAsyncThunk('tickets/fetchTickets', async (id, { rejectWithValue }) => {
+  return fetchTickets(id, rejectWithValue);
 });
 
 const ticketSlice = createSlice({
   name: 'tickets',
-  initialState,
+  initialState: { tickets: [], stop: false, isLoading: false, error: '' },
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(fetchTickets.pending, (state, action) => {
+      .addCase(fetchTicketsThunk.pending, (state) => {
         state.isLoading = true;
-        state.error = action.payload;
       })
-      .addCase(fetchTickets.fulfilled, (state, action) => {
+      .addCase(fetchTicketsThunk.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.tickets = action.payload;
+        if (Array.isArray(action.payload.tickets)) {
+          state.tickets = [...state.tickets, ...action.payload.tickets];
+        } else {
+          state.error = 'ошибка запроса';
+        }
+        state.stop = action.payload.stop;
       })
-      .addCase(fetchTickets.rejected, (state, action) => {
+      .addCase(fetchTicketsThunk.rejected, (state) => {
         state.isLoading = false;
-        state.error = action.payload;
+        state.error = 'ошибка запроса';
       });
   },
 });
