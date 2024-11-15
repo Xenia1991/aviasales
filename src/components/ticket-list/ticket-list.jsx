@@ -12,7 +12,6 @@ const TicketList = () => {
   const dispatch = useDispatch();
   const tickets = useSelector((state) => state.tickets.tickets);
   const stop = useSelector((state) => state.tickets.stop);
-  const isLoading = useSelector((state) => state.tickets.isLoading);
   const { searchId } = useSelector((state) => state.searchId);
   const shownTickets = useSelector((state) => state.tickets.shownTickets);
   useEffect(() => {

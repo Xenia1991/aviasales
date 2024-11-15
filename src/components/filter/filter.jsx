@@ -10,6 +10,7 @@ const Filter = () => {
   const filterCheapest = useSelector((state) => state.filter.filterCheapest);
   const filterFastest = useSelector((state) => state.filter.filterFastest);
   const dispatch = useDispatch();
+  const isLoading = useSelector((state) => state.tickets.isLoading);
 
   const onChange = ({ target: { value } }) => {
     if (value === 'САМЫЙ ДЕШЁВЫЙ') {
@@ -28,11 +29,6 @@ const Filter = () => {
       label: 'САМЫЙ БЫСТРЫЙ',
       value: 'САМЫЙ БЫСТРЫЙ',
     },
-    {
-      label: 'ОПТИМАЛЬНЫЙ',
-      value: 'ОПТИМАЛЬНЫЙ',
-      disabled: true,
-    },
   ];
   return (
     <div className={classes.app__filter}>
@@ -45,6 +41,12 @@ const Filter = () => {
         defaultValue="САМЫЙ ДЕШЁВЫЙ"
         onChange={onChange}
       />
+      {isLoading ? (
+        <div>
+          <span className={classes.loader} />
+          <p className={classes.info}>Search tickets...</p>
+        </div>
+      ) : null}
     </div>
   );
 };

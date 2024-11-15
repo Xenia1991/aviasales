@@ -65,16 +65,17 @@ export const ticketSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(fetchTicketsThunk.fulfilled, (state, action) => {
-        state.isLoading = false;
         if (Array.isArray(action.payload.tickets)) {
           state.tickets = [...state.tickets, ...action.payload.tickets];
         } else {
           state.error = 'ошибка запроса';
         }
         state.stop = action.payload.stop;
+        if (state.stop) {
+          state.isLoading = false;
+        }
       })
       .addCase(fetchTicketsThunk.rejected, (state) => {
-        state.isLoading = false;
         state.error = 'ошибка запроса';
       });
   },
