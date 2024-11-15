@@ -1,16 +1,15 @@
 import React from 'react';
 import { Button } from 'antd';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
-import { shownTicketSlice } from '../../redux/reducers/shown-ticket-reducer';
+import { ticketSlice } from '../../redux/reducers/tickets-reducer';
 
 import classes from './show-more-button.module.scss';
 
 const ShowMoreButton = () => {
   const dispatch = useDispatch();
-  const tickets = useSelector((state) => state.tickets.tickets);
   const handleButtonClick = () => {
-    dispatch(shownTicketSlice.actions.sliceTickets(tickets));
+    dispatch(ticketSlice.actions.sliceTickets());
   };
   return (
     <div>

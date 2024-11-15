@@ -3,8 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { nanoid } from 'nanoid';
 
 import Ticket from '../ticket/ticket';
-import { fetchTicketsThunk, fetchSearchId } from '../../redux/reducers/tickets-reducer';
-import { shownTicketSlice } from '../../redux/reducers/shown-ticket-reducer';
+import { fetchTicketsThunk, fetchSearchId, ticketSlice } from '../../redux/reducers/tickets-reducer';
 
 import classes from './ticket-list.module.scss';
 
@@ -13,7 +12,7 @@ const TicketList = () => {
   const tickets = useSelector((state) => state.tickets.tickets);
   const stop = useSelector((state) => state.tickets.stop);
   const { searchId } = useSelector((state) => state.searchId);
-  const shownTickets = useSelector((state) => state.shownTickets.shownTickets);
+  const shownTickets = useSelector((state) => state.tickets.shownTickets);
   useEffect(() => {
     dispatch(fetchSearchId());
   }, []);
@@ -24,7 +23,7 @@ const TicketList = () => {
   }, [searchId, tickets, dispatch, stop]);
   useEffect(() => {
     if (stop) {
-      dispatch(shownTicketSlice.actions.sliceTickets(tickets));
+      dispatch(ticketSlice.actions.sliceTickets());
     }
   }, [stop, dispatch]);
   let ticketList = [];

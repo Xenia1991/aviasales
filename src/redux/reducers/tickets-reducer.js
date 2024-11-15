@@ -50,10 +50,15 @@ export const fetchTicketsThunk = createAsyncThunk('tickets/fetchTickets', async 
   return fetchTickets(id, rejectWithValue);
 });
 
-const ticketSlice = createSlice({
+export const ticketSlice = createSlice({
   name: 'tickets',
-  initialState: { tickets: [], stop: false, isLoading: false, error: '' },
-  reducers: {},
+  initialState: { tickets: [], stop: false, isLoading: false, error: '', shownTickets: [], sliceNum: 0 },
+  reducers: {
+    sliceTickets(state, action) {
+      state.sliceNum += 5;
+      state.shownTickets = state.tickets.slice(0, state.sliceNum);
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchTicketsThunk.pending, (state) => {
