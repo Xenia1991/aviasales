@@ -1,52 +1,56 @@
 import React from 'react';
+import { Checkbox } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
-import { Radio } from 'antd';
 
-import { chooseCheapest, chooseFastest } from '../../redux/actions/filter';
+import { ticketSlice } from '../../redux/reducers/tickets-reducer';
 
 import classes from './filter.module.scss';
 
 const Filter = () => {
-  const filterCheapest = useSelector((state) => state.filter.filterCheapest);
-  const filterFastest = useSelector((state) => state.filter.filterFastest);
+  const filterAll = useSelector((state) => state.tickets.filterAll);
+  const filterWithout = useSelector((state) => state.tickets.filterWithout);
+  const filterOne = useSelector((state) => state.tickets.filterOne);
+  const filterTwo = useSelector((state) => state.tickets.filterTwo);
+  const filterThree = useSelector((state) => state.tickets.filterThree);
   const dispatch = useDispatch();
-  const isLoading = useSelector((state) => state.tickets.isLoading);
-
-  const onChange = ({ target: { value } }) => {
-    if (value === 'САМЫЙ ДЕШЁВЫЙ') {
-      dispatch(chooseCheapest());
-    }
-    if (value === 'САМЫЙ БЫСТРЫЙ') {
-      dispatch(chooseFastest());
-    }
+  const handleFilterAll = () => {
+    dispatch(ticketSlice.actions.filterAll());
   };
-  const radioOptions = [
-    {
-      label: 'САМЫЙ ДЕШЁВЫЙ',
-      value: 'САМЫЙ ДЕШЁВЫЙ',
-    },
-    {
-      label: 'САМЫЙ БЫСТРЫЙ',
-      value: 'САМЫЙ БЫСТРЫЙ',
-    },
-  ];
+  const handleFilterWithout = () => {
+    dispatch(ticketSlice.actions.filterWithout());
+  };
+  const handleFilterOne = () => {
+    dispatch(ticketSlice.actions.filterOne());
+  };
+  const handleFilterTwo = () => {
+    dispatch(ticketSlice.actions.filterTwo());
+  };
+  const handleFilterThree = () => {
+    dispatch(ticketSlice.actions.filterThree());
+  };
   return (
-    <div className={classes.app__filter}>
-      <Radio.Group
-        block
-        size="large"
-        options={radioOptions}
-        optionType="button"
-        buttonStyle="solid"
-        defaultValue="САМЫЙ ДЕШЁВЫЙ"
-        onChange={onChange}
-      />
-      {isLoading ? (
-        <div>
-          <span className={classes.loader} />
-          <p className={classes.info}>Search tickets...</p>
-        </div>
-      ) : null}
+    <div className={classes['app__sorting-elements']}>
+      <h5 className={classes['app__sorting-header']}>количество пересадок</h5>
+      <div className={classes['app__sorting-checkbox']}>
+        <Checkbox
+          onChange={handleFilterAll}
+          checked={filterAll || (filterWithout && filterOne && filterTwo && filterThree)}
+        >
+          Все
+        </Checkbox>
+        <Checkbox onChange={handleFilterWithout} checked={filterWithout}>
+          Без пересадок
+        </Checkbox>
+        <Checkbox onChange={handleFilterOne} checked={filterOne}>
+          1 пересадка
+        </Checkbox>
+        <Checkbox onChange={handleFilterTwo} checked={filterTwo}>
+          2 пересадки
+        </Checkbox>
+        <Checkbox onChange={handleFilterThree} checked={filterThree}>
+          3 пересадки
+        </Checkbox>
+      </div>
     </div>
   );
 };

@@ -1,53 +1,52 @@
 import React from 'react';
-import { Checkbox } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
+import { Radio } from 'antd';
 
-import { checkAll, checkWithout, checkOne, checkTwo, checkThree } from '../../redux/actions/sort';
+import { ticketSlice } from '../../redux/reducers/tickets-reducer';
 
 import classes from './sort.module.scss';
 
 const Sort = () => {
-  const sortAll = useSelector((state) => state.sort.sortAll);
-  const sortWithout = useSelector((state) => state.sort.sortWithout);
-  const sortOne = useSelector((state) => state.sort.sortOne);
-  const sortTwo = useSelector((state) => state.sort.sortTwo);
-  const sortThree = useSelector((state) => state.sort.sortThree);
+  const sortCheapest = useSelector((state) => state.tickets.sortCheapest);
+  const sortFastest = useSelector((state) => state.tickets.sortFastest);
   const dispatch = useDispatch();
-  const handleFilterAll = () => {
-    dispatch(checkAll());
+  const isLoading = useSelector((state) => state.tickets.isLoading);
+
+  const onChange = ({ target: { value } }) => {
+    if (value === 'САМЫЙ ДЕШЁВЫЙ') {
+      dispatch(ticketSlice.actions.sortCheapest());
+    }
+    if (value === 'САМЫЙ БЫСТРЫЙ') {
+      dispatch(ticketSlice.actions.sortFastest());
+    }
   };
-  const handleFilterWithout = () => {
-    dispatch(checkWithout());
-  };
-  const handleFilterOne = () => {
-    dispatch(checkOne());
-  };
-  const handleFilterTwo = () => {
-    dispatch(checkTwo());
-  };
-  const handleFilterThree = () => {
-    dispatch(checkThree());
-  };
+  const radioOptions = [
+    {
+      label: 'САМЫЙ ДЕШЁВЫЙ',
+      value: 'САМЫЙ ДЕШЁВЫЙ',
+    },
+    {
+      label: 'САМЫЙ БЫСТРЫЙ',
+      value: 'САМЫЙ БЫСТРЫЙ',
+    },
+  ];
   return (
-    <div className={classes['app__sorting-elements']}>
-      <h5 className={classes['app__sorting-header']}>количество пересадок</h5>
-      <div className={classes['app__sorting-checkbox']}>
-        <Checkbox onChange={handleFilterAll} checked={sortAll || (sortWithout && sortOne && sortTwo && sortThree)}>
-          Все
-        </Checkbox>
-        <Checkbox onChange={handleFilterWithout} checked={sortWithout}>
-          Без пересадок
-        </Checkbox>
-        <Checkbox onChange={handleFilterOne} checked={sortOne}>
-          1 пересадка
-        </Checkbox>
-        <Checkbox onChange={handleFilterTwo} checked={sortTwo}>
-          2 пересадки
-        </Checkbox>
-        <Checkbox onChange={handleFilterThree} checked={sortThree}>
-          3 пересадки
-        </Checkbox>
-      </div>
+    <div className={classes.app__filter}>
+      <Radio.Group
+        block
+        size="large"
+        options={radioOptions}
+        optionType="button"
+        buttonStyle="solid"
+        defaultValue="САМЫЙ ДЕШЁВЫЙ"
+        onChange={onChange}
+      />
+      {isLoading ? (
+        <div>
+          <span className={classes.loader} />
+          <p className={classes.info}>Search tickets...</p>
+        </div>
+      ) : null}
     </div>
   );
 };

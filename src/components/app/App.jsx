@@ -14,10 +14,10 @@ const App = () => {
       <Logo />
       <div className={classes.app__main}>
         <div className={classes.app__sort}>
-          <Sort />
+          <Filter />
         </div>
         <div className={classes.app__list}>
-          <Filter />
+          <Sort />
           <TicketList />
           <ShowMoreButton />
         </div>
