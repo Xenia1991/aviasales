@@ -12,6 +12,7 @@ const TicketList = () => {
   const dispatch = useDispatch();
   const tickets = useSelector((state) => state.tickets.tickets);
   const stop = useSelector((state) => state.tickets.stop);
+  const sliceNum = useSelector((state) => state.tickets.sliceNum);
   const { searchId } = useSelector((state) => state.searchId);
   const shownTickets = useSelector((state) => state.tickets.shownTickets);
 
@@ -22,7 +23,7 @@ const TicketList = () => {
   useEffect(() => {
     if (searchId && !stop) {
       dispatch(fetchTicketsThunk(searchId));
-      dispatch(ticketSlice.actions.sliceTickets(5));
+      dispatch(ticketSlice.actions.sliceTickets(sliceNum || 5));
       dispatch(ticketSlice.actions.sortTickets());
     }
   }, [searchId, tickets, dispatch, stop]);
