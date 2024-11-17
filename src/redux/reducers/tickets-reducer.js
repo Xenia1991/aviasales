@@ -169,53 +169,57 @@ export const ticketSlice = createSlice({
     },
     filterTickets(state, action) {
       let resultTicketsArray = [];
-      if (state.filterAll) {
+      if (!state.filterAll && !state.filterWithout && !state.filterOne && !state.filterTwo && !state.filterThree) {
         state.filteredTickets = state.tickets;
-      }
-      if (state.filterWithout) {
-        const filterWitoutStop = state.tickets.filter((ticket) => {
-          const { segments } = ticket;
-          const stopsCount = segments.reduce((ac, item) => {
-            const sum = ac + item.stops.length;
-            return sum;
-          }, 0);
-          return stopsCount === 0;
-        });
-        resultTicketsArray = [...resultTicketsArray, ...filterWitoutStop];
-        state.filteredTickets = resultTicketsArray;
-      }
-      if (state.filterOne) {
-        const filterWithOneStop = state.tickets.filter((ticket) => {
-          const { segments } = ticket;
-          const result = segments.every((item) => {
-            return item.stops.length === 1;
+      } else {
+        if (state.filterAll) {
+          state.filteredTickets = state.tickets;
+        }
+        if (state.filterWithout) {
+          const filterWitoutStop = state.tickets.filter((ticket) => {
+            const { segments } = ticket;
+            const stopsCount = segments.reduce((ac, item) => {
+              const sum = ac + item.stops.length;
+              return sum;
+            }, 0);
+            return stopsCount === 0;
           });
-          return result;
-        });
-        resultTicketsArray = [...resultTicketsArray, ...filterWithOneStop];
-        state.filteredTickets = resultTicketsArray;
-      }
-      if (state.filterTwo) {
-        const filterWithTwoStops = state.tickets.filter((ticket) => {
-          const { segments } = ticket;
-          const result = segments.every((item) => {
-            return item.stops.length === 2;
+          resultTicketsArray = [...resultTicketsArray, ...filterWitoutStop];
+          state.filteredTickets = resultTicketsArray;
+        }
+        if (state.filterOne) {
+          const filterWithOneStop = state.tickets.filter((ticket) => {
+            const { segments } = ticket;
+            const result = segments.every((item) => {
+              return item.stops.length === 1;
+            });
+            return result;
           });
-          return result;
-        });
-        resultTicketsArray = [...resultTicketsArray, ...filterWithTwoStops];
-        state.filteredTickets = resultTicketsArray;
-      }
-      if (state.filterThree) {
-        const filterWithThreeStops = state.tickets.filter((ticket) => {
-          const { segments } = ticket;
-          const result = segments.every((item) => {
-            return item.stops.length === 3;
+          resultTicketsArray = [...resultTicketsArray, ...filterWithOneStop];
+          state.filteredTickets = resultTicketsArray;
+        }
+        if (state.filterTwo) {
+          const filterWithTwoStops = state.tickets.filter((ticket) => {
+            const { segments } = ticket;
+            const result = segments.every((item) => {
+              return item.stops.length === 2;
+            });
+            return result;
           });
-          return result;
-        });
-        resultTicketsArray = [...resultTicketsArray, ...filterWithThreeStops];
-        state.filteredTickets = resultTicketsArray;
+          resultTicketsArray = [...resultTicketsArray, ...filterWithTwoStops];
+          state.filteredTickets = resultTicketsArray;
+        }
+        if (state.filterThree) {
+          const filterWithThreeStops = state.tickets.filter((ticket) => {
+            const { segments } = ticket;
+            const result = segments.every((item) => {
+              return item.stops.length === 3;
+            });
+            return result;
+          });
+          resultTicketsArray = [...resultTicketsArray, ...filterWithThreeStops];
+          state.filteredTickets = resultTicketsArray;
+        }
       }
     },
   },

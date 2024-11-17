@@ -28,9 +28,9 @@ const TicketList = () => {
   useEffect(() => {
     if (searchId && !stop) {
       dispatch(fetchTicketsThunk(searchId));
-      dispatch(ticketSlice.actions.sliceTickets(sliceNum || 5));
       dispatch(ticketSlice.actions.filterTickets());
       dispatch(ticketSlice.actions.sortTickets());
+      dispatch(ticketSlice.actions.sliceTickets(sliceNum || 5));
     }
   }, [searchId, tickets, dispatch, stop]);
 

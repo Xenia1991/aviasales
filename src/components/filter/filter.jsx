@@ -16,22 +16,27 @@ const Filter = () => {
   const handleFilterAll = () => {
     dispatch(ticketSlice.actions.filterAll());
     dispatch(ticketSlice.actions.filterTickets());
+    dispatch(ticketSlice.actions.sortTickets());
   };
   const handleFilterWithout = () => {
     dispatch(ticketSlice.actions.filterWithout());
     dispatch(ticketSlice.actions.filterTickets());
+    dispatch(ticketSlice.actions.sortTickets());
   };
   const handleFilterOne = () => {
     dispatch(ticketSlice.actions.filterOne());
     dispatch(ticketSlice.actions.filterTickets());
+    dispatch(ticketSlice.actions.sortTickets());
   };
   const handleFilterTwo = () => {
     dispatch(ticketSlice.actions.filterTwo());
     dispatch(ticketSlice.actions.filterTickets());
+    dispatch(ticketSlice.actions.sortTickets());
   };
   const handleFilterThree = () => {
     dispatch(ticketSlice.actions.filterThree());
     dispatch(ticketSlice.actions.filterTickets());
+    dispatch(ticketSlice.actions.sortTickets());
   };
   return (
     <div className={classes['app__sorting-elements']}>
