@@ -55,7 +55,8 @@ export const ticketSlice = createSlice({
   initialState: {
     tickets: [],
     shownTickets: [],
-    mutatedTicket: [],
+    sortedTickets: [],
+    filteredTickets: [],
     stop: false,
     isLoading: false,
     error: '',
@@ -71,10 +72,10 @@ export const ticketSlice = createSlice({
   reducers: {
     sliceTickets(state, action) {
       if (Number.isFinite(action.payload)) {
-        state.shownTickets = state.mutatedTicket.slice(0, action.payload);
+        state.shownTickets = state.sortedTickets.slice(0, action.payload);
       } else {
         state.sliceNum += 5;
-        state.shownTickets = state.mutatedTicket.slice(0, state.sliceNum);
+        state.shownTickets = state.sortedTickets.slice(0, state.sliceNum);
       }
     },
     sortCheapest(state, action) {
@@ -146,7 +147,7 @@ export const ticketSlice = createSlice({
     },
     sortTickets(state, action) {
       if (state.sortFastest) {
-        const fatestTickets = state.tickets.sort((a, b) => {
+        const fatestTickets = state.filteredTickets.sort((a, b) => {
           const sumADuration = a.segments.reduce((ac, item) => {
             const sum = ac + item.duration;
             return sum;
@@ -157,16 +158,66 @@ export const ticketSlice = createSlice({
           }, 0);
           return sumADuration - sunmBDuration;
         });
-        state.mutatedTicket = [...fatestTickets];
+        state.sortedTickets = [...fatestTickets];
       }
       if (state.sortCheapest) {
-        const cheapestTickets = state.tickets.sort((a, b) => {
+        const cheapestTickets = state.filteredTickets.sort((a, b) => {
           return a.price - b.price;
         });
-        state.mutatedTicket = [...cheapestTickets];
+        state.sortedTickets = [...cheapestTickets];
       }
     },
-    filterTickets() {},
+    filterTickets(state, action) {
+      let resultTicketsArray = [];
+      if (state.filterAll) {
+        state.filteredTickets = state.tickets;
+      }
+      if (state.filterWithout) {
+        const filterWitoutStop = state.tickets.filter((ticket) => {
+          const { segments } = ticket;
+          const stopsCount = segments.reduce((ac, item) => {
+            const sum = ac + item.stops.length;
+            return sum;
+          }, 0);
+          return stopsCount === 0;
+        });
+        resultTicketsArray = [...resultTicketsArray, ...filterWitoutStop];
+        state.filteredTickets = resultTicketsArray;
+      }
+      if (state.filterOne) {
+        const filterWithOneStop = state.tickets.filter((ticket) => {
+          const { segments } = ticket;
+          const result = segments.every((item) => {
+            return item.stops.length === 1;
+          });
+          return result;
+        });
+        resultTicketsArray = [...resultTicketsArray, ...filterWithOneStop];
+        state.filteredTickets = resultTicketsArray;
+      }
+      if (state.filterTwo) {
+        const filterWithTwoStops = state.tickets.filter((ticket) => {
+          const { segments } = ticket;
+          const result = segments.every((item) => {
+            return item.stops.length === 2;
+          });
+          return result;
+        });
+        resultTicketsArray = [...resultTicketsArray, ...filterWithTwoStops];
+        state.filteredTickets = resultTicketsArray;
+      }
+      if (state.filterThree) {
+        const filterWithThreeStops = state.tickets.filter((ticket) => {
+          const { segments } = ticket;
+          const result = segments.every((item) => {
+            return item.stops.length === 3;
+          });
+          return result;
+        });
+        resultTicketsArray = [...resultTicketsArray, ...filterWithThreeStops];
+        state.filteredTickets = resultTicketsArray;
+      }
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -176,7 +227,7 @@ export const ticketSlice = createSlice({
       .addCase(fetchTicketsThunk.fulfilled, (state, action) => {
         if (Array.isArray(action.payload.tickets)) {
           state.tickets = [...state.tickets, ...action.payload.tickets];
-          state.mutatedTicket = [...state.tickets, ...action.payload.tickets];
+          state.sortedTickets = [...state.tickets, ...action.payload.tickets];
         } else {
           state.error = 'ошибка запроса';
         }

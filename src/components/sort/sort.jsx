@@ -14,11 +14,13 @@ const Sort = () => {
   const onChange = ({ target: { value } }) => {
     if (value === 'САМЫЙ ДЕШЁВЫЙ') {
       dispatch(ticketSlice.actions.sortCheapest());
+      dispatch(ticketSlice.actions.filterTickets());
       dispatch(ticketSlice.actions.sortTickets());
       dispatch(ticketSlice.actions.sliceTickets(sliceNum || 5));
     }
     if (value === 'САМЫЙ БЫСТРЫЙ') {
       dispatch(ticketSlice.actions.sortFastest());
+      dispatch(ticketSlice.actions.filterTickets());
       dispatch(ticketSlice.actions.sortTickets());
       dispatch(ticketSlice.actions.sliceTickets(sliceNum || 5));
     }

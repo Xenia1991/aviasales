@@ -15,18 +15,23 @@ const Filter = () => {
   const dispatch = useDispatch();
   const handleFilterAll = () => {
     dispatch(ticketSlice.actions.filterAll());
+    dispatch(ticketSlice.actions.filterTickets());
   };
   const handleFilterWithout = () => {
     dispatch(ticketSlice.actions.filterWithout());
+    dispatch(ticketSlice.actions.filterTickets());
   };
   const handleFilterOne = () => {
     dispatch(ticketSlice.actions.filterOne());
+    dispatch(ticketSlice.actions.filterTickets());
   };
   const handleFilterTwo = () => {
     dispatch(ticketSlice.actions.filterTwo());
+    dispatch(ticketSlice.actions.filterTickets());
   };
   const handleFilterThree = () => {
     dispatch(ticketSlice.actions.filterThree());
+    dispatch(ticketSlice.actions.filterTickets());
   };
   return (
     <div className={classes['app__sorting-elements']}>
