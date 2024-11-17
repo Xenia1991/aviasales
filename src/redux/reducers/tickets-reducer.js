@@ -54,23 +54,28 @@ export const ticketSlice = createSlice({
   name: 'tickets',
   initialState: {
     tickets: [],
+    shownTickets: [],
+    mutatedTicket: [],
     stop: false,
     isLoading: false,
     error: '',
-    shownTickets: [],
     sliceNum: 0,
     sortCheapest: true,
     sortFastest: false,
-    filterAll: false,
-    filterWithout: false,
-    filterOne: false,
-    filterTwo: false,
-    filterThree: false,
+    filterAll: true,
+    filterWithout: true,
+    filterOne: true,
+    filterTwo: true,
+    filterThree: true,
   },
   reducers: {
     sliceTickets(state, action) {
-      state.sliceNum += 5;
-      state.shownTickets = state.tickets.slice(0, state.sliceNum);
+      if (Number.isFinite(action.payload)) {
+        state.shownTickets = state.mutatedTicket.slice(0, action.payload);
+      } else {
+        state.sliceNum += 5;
+        state.shownTickets = state.mutatedTicket.slice(0, state.sliceNum);
+      }
     },
     sortCheapest(state, action) {
       state.sortCheapest = true;
@@ -139,6 +144,29 @@ export const ticketSlice = createSlice({
         state.filterAll = true;
       }
     },
+    sortTickets(state, action) {
+      if (state.sortFastest) {
+        const fatestTickets = state.tickets.sort((a, b) => {
+          const sumADuration = a.segments.reduce((ac, item) => {
+            const sum = ac + item.duration;
+            return sum;
+          }, 0);
+          const sunmBDuration = b.segments.reduce((ac, item) => {
+            const sum = ac + item.duration;
+            return sum;
+          }, 0);
+          return sumADuration - sunmBDuration;
+        });
+        state.mutatedTicket = [...fatestTickets];
+      }
+      if (state.sortCheapest) {
+        const cheapestTickets = state.tickets.sort((a, b) => {
+          return a.price - b.price;
+        });
+        state.mutatedTicket = [...cheapestTickets];
+      }
+    },
+    filterTickets() {},
   },
   extraReducers: (builder) => {
     builder
@@ -148,6 +176,7 @@ export const ticketSlice = createSlice({
       .addCase(fetchTicketsThunk.fulfilled, (state, action) => {
         if (Array.isArray(action.payload.tickets)) {
           state.tickets = [...state.tickets, ...action.payload.tickets];
+          state.mutatedTicket = [...state.tickets, ...action.payload.tickets];
         } else {
           state.error = 'ошибка запроса';
         }

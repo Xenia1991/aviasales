@@ -7,17 +7,20 @@ import { ticketSlice } from '../../redux/reducers/tickets-reducer';
 import classes from './sort.module.scss';
 
 const Sort = () => {
-  const sortCheapest = useSelector((state) => state.tickets.sortCheapest);
-  const sortFastest = useSelector((state) => state.tickets.sortFastest);
   const dispatch = useDispatch();
+  const sliceNum = useSelector((state) => state.tickets.sliceNum);
   const isLoading = useSelector((state) => state.tickets.isLoading);
 
   const onChange = ({ target: { value } }) => {
     if (value === 'САМЫЙ ДЕШЁВЫЙ') {
       dispatch(ticketSlice.actions.sortCheapest());
+      dispatch(ticketSlice.actions.sortTickets());
+      dispatch(ticketSlice.actions.sliceTickets(sliceNum || 5));
     }
     if (value === 'САМЫЙ БЫСТРЫЙ') {
       dispatch(ticketSlice.actions.sortFastest());
+      dispatch(ticketSlice.actions.sortTickets());
+      dispatch(ticketSlice.actions.sliceTickets(sliceNum || 5));
     }
   };
   const radioOptions = [

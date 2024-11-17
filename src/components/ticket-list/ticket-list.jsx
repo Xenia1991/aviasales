@@ -8,32 +8,31 @@ import { fetchTicketsThunk, fetchSearchId, ticketSlice } from '../../redux/reduc
 import classes from './ticket-list.module.scss';
 
 const TicketList = () => {
-  const [isSliced, setIsSliced] = useState(false);
+  let ticketList = [];
   const dispatch = useDispatch();
   const tickets = useSelector((state) => state.tickets.tickets);
   const stop = useSelector((state) => state.tickets.stop);
   const { searchId } = useSelector((state) => state.searchId);
   const shownTickets = useSelector((state) => state.tickets.shownTickets);
+
   useEffect(() => {
     dispatch(fetchSearchId());
   }, []);
+
   useEffect(() => {
     if (searchId && !stop) {
       dispatch(fetchTicketsThunk(searchId));
+      dispatch(ticketSlice.actions.sliceTickets(5));
+      dispatch(ticketSlice.actions.sortTickets());
     }
   }, [searchId, tickets, dispatch, stop]);
-  useEffect(() => {
-    if (tickets.length > 0 && !isSliced) {
-      dispatch(ticketSlice.actions.sliceTickets());
-      setIsSliced(true);
-    }
-  }, [tickets]);
-  let ticketList = [];
+
   if (shownTickets.length > 0) {
     ticketList = shownTickets.map((ticket) => {
       return <Ticket ticket={ticket} key={nanoid()} />;
     });
   }
+
   return <div>{ticketList}</div>;
 };
 
