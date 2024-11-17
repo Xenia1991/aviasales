@@ -37,13 +37,22 @@ const TicketList = () => {
   useEffect(() => {
     dispatch(ticketSlice.actions.sliceTickets(sliceNum || 5));
   }, [filterAll, filterWithout, filterOne, filterTwo, filterThree]);
+
   if (shownTickets.length > 0) {
     ticketList = shownTickets.map((ticket) => {
       return <Ticket ticket={ticket} key={nanoid()} />;
     });
   }
 
-  return <div>{ticketList}</div>;
+  return (
+    <div>
+      {shownTickets.length > 0 ? (
+        ticketList
+      ) : (
+        <div className={classes.empty__container}>По вашему запросу ничего не найдено</div>
+      )}
+    </div>
+  );
 };
 
 export default TicketList;

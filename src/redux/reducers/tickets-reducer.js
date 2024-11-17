@@ -170,7 +170,7 @@ export const ticketSlice = createSlice({
     filterTickets(state, action) {
       let resultTicketsArray = [];
       if (!state.filterAll && !state.filterWithout && !state.filterOne && !state.filterTwo && !state.filterThree) {
-        state.filteredTickets = state.tickets;
+        state.filteredTickets = [];
       } else {
         if (state.filterAll) {
           state.filteredTickets = state.tickets;

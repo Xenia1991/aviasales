@@ -1,13 +1,16 @@
+body {
+    margin: 0;
+}
+
 .app {
     margin: 0 auto;
     width: 960px;
-    height: auto;
+    min-height: 100vh;
     background-color: #F3F7FA;
     display: flex;
     flex-direction: column;
     align-items: center;
     font-family: 'Open Sans';
-    padding-bottom: 30px;
     &__main {
         width: 100%;
         height: auto;
