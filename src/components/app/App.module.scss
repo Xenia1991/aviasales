@@ -3,30 +3,66 @@ body {
 }
 
 .app {
-    margin: 0 auto;
-    width: 960px;
-    min-height: 100vh;
-    background-color: #F3F7FA;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    font-family: 'Open Sans';
-    &__main {
-        width: 100%;
-        height: auto;
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        gap: 30px;
-    }
-    &__sort {
-        width: 232px;
-        height: auto;
-    }
-    &__list {
-        width: 502px;
-        height: auto;
+    @media (max-width: 959px) {
+        margin: 0 auto;
+        width: 430px;
+        min-height: 100vh;
+        background-color: #F3F7FA;
         display: flex;
         flex-direction: column;
+        align-items: center;
+        font-family: 'Open Sans';
+        padding: 5px;
+    }
+    @media (min-width: 960px) {
+        margin: 0 auto;
+        width: 960px;
+        min-height: 100vh;
+        background-color: #F3F7FA;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        font-family: 'Open Sans';
+    }
+    &__main {
+        @media (max-width: 959px)  {
+            width: 100%;
+            height: auto;
+            justify-content: center;
+            gap: 30px;
+        }
+        @media (min-width: 960px) {
+            width: 100%;
+            height: auto;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            gap: 30px;  
+        }
+    }
+    &__sort {
+        @media (max-width: 959px) {
+            width: 100%;
+            height: auto;
+            padding-bottom: 10px;
+        }
+        @media (min-width: 960px) {
+            width: 232px;
+            height: auto;
+        }
+    }
+    &__list {
+        @media (max-width: 959px) {
+            width: 100%;
+            height: auto;
+            display: flex;
+            flex-direction: column;
+        }
+        @media (min-width: 960px) {
+            width: 502px;
+            height: auto;
+            display: flex;
+            flex-direction: column;
+        }
     }
 }
